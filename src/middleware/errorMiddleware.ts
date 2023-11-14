@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import {
-  ApiErrorResponse,
   createErrorWithStackResponse,
   createNotFoundResponse,
 } from "../utils/response";

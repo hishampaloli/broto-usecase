@@ -6,6 +6,10 @@ class EnvironmentChecker {
   async check() {
     try {
       this.checkEnvVariable("MONGO_URI");
+      this.checkEnvVariable("DB_NAME");
+      this.checkEnvVariable("SMTP_EMAIL");
+      this.checkEnvVariable("SMTP_PASS");
+      this.checkEnvVariable("DATABASE_TYPE");
     } catch (error: any) {
       console.log(error.message);
       process.exit(1);

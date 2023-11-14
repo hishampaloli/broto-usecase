@@ -8,10 +8,14 @@ const start = async () => {
     let env = new EnvironmentChecker();
     const dbConnector = new DatabaseConnector(MONGO_URI);
 
-    env.check();
-    dbConnector.connect();
+    await env.check();
+    await dbConnector.connect();
+
+    app.listen(8000, () => {
+      console.log("Listening on port 3000!!!!!!!!");
+    });
   } catch (err) {
-    console.error(err, "/sdf");
+    console.error(err, "start error");
   }
 };
 
