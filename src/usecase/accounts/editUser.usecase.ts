@@ -15,8 +15,8 @@ export const editUserUsecase = async () => {
       }
     }
   };
-  const execute = async (email: string, data: object) => {
-    return userRepository.editUserByEmail(email, data);
+  const execute = async (userId: string, data: object) => {
+    return userRepository.editUserById(userId, data);
   };
   return {
     execute,

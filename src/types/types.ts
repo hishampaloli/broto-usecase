@@ -33,7 +33,7 @@ export interface UserRepository {
   ) => Promise<any>;
   getUserByEmail: (email: string) => Promise<any>;
   blockUserByEmail: (email: string, status: boolean) => Promise<void>;
-  editUserByEmail: (email: string, data: object) => Promise<void>;
+  editUserById: (userId: string, data: object) => Promise<void>;
   deleteUserByEmail: (email: string) => Promise<void>;
   getAllCordinators: () => Promise<any[]>;
   getAllStudents: () => Promise<any[]>;

@@ -1,9 +1,4 @@
 import { userRepository } from "../../repository";
-import { getAccoundCreatedMailTemplate } from "../../utils/mailservice";
-import { createRandomPassword } from "../../utils/password";
-import { sendMailUseCase } from "../external";
-import { TransactionClientType } from "../../config/TransactionService";
-
 export const blockUserUsecase = async () => {
   const validate = async (email: string, status: boolean) => {
     if (!email) {

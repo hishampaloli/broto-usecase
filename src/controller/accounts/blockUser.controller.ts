@@ -5,20 +5,19 @@ import {
   createSuccessResponse,
 } from "../../utils/response";
 
-export const editUser = async (
+export const blockUser = async (
   req: Request | any,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { data } = req.body;
-    const { role, id } = req.user;
+    const { email, status } = req.body;
     const usecase = await editUserUsecase();
 
-    await usecase.validate(data, role);
-    await usecase.execute(id, data);
+    await usecase.validate(email, status);
+    await usecase.execute(email, status);
 
-    res.json(createSuccessResponse("User edited successfully", req));
+    res.json(createSuccessResponse("Account blocked successfully", req));
   } catch (error: any) {
     res
       .status(error.statusCode || 500)

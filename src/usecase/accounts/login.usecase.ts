@@ -19,6 +19,11 @@ export const loginUsecase = async () => {
   };
   const execute = async (email: string, password: string): Promise<string> => {
     const user = await userRepository.getUserByEmail(email);
+    if(user.isBlocked) {
+        throw Object.assign(new Error("Your account is blocked"), {
+            statusCode: 400,
+          });
+    }
     const passwordsMatch = await Password.compare(user.password, password);
     if (!passwordsMatch) {
       throw Object.assign(new Error("Password or Email incorrect"), {
@@ -26,7 +31,7 @@ export const loginUsecase = async () => {
       });
     }
     const token = generateToken(user);
-    
+
     return token;
   };
   return {

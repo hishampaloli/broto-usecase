@@ -37,11 +37,14 @@ const userRepository: UserRepository = {
   },
 
   blockUserByEmail: async (email: string, status: boolean) => {
-    await User.findOneAndUpdate({ email }, { isBocked: status });
+    console.log(email,status);
+    
+    await User.findOneAndUpdate({ email }, { isBlocked: status });
   },
 
-  editUserByEmail: async (email: string, data: object) => {
-    await User.findOneAndUpdate({ email }, data);
+  editUserById: async (userId: string, data: object) => {
+    console.log(userId, data);
+    await User.findByIdAndUpdate(userId, data);
   },
 
   editStudentProfile: async (userId: string, data: object) => {
