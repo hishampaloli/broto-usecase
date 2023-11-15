@@ -6,7 +6,7 @@ import {
 } from "../../types/types";
 import mongoose, { ClientSession } from "mongoose";
 
-const userRepository: UserRepository = {
+const userRepository: any = {
   createUser: async (user: UserAttrs) => {
     const session = await mongoose.startSession();
     session.startTransaction();

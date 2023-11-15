@@ -31,10 +31,18 @@ export interface UserRepository {
     profileData: StudentProfileAttrs,
     session: TransactionClientType
   ) => Promise<any>;
+  getUserByEmail: (email: string) => Promise<any>;
+  blockUserByEmail: (email: string, status: boolean) => Promise<void>;
+  editUserByEmail: (email: string, data: object) => Promise<void>;
+  deleteUserByEmail: (email: string) => Promise<void>;
+  getAllCordinators: () => Promise<any[]>;
+  getAllStudents: () => Promise<any[]>;
+  getAllReviewers: () => Promise<any[]>;
+  editStudentProfile: (userId: string, data: object) => Promise<void>;
 }
 
 export interface NotificationRepository {
-  createNotification: (data:NotificationAttrs) => Promise<void>;
+  createNotification: (data: NotificationAttrs) => Promise<void>;
   readNotification: (notificationId: string, userId: string) => Promise<any>;
 }
 
@@ -55,4 +63,8 @@ export interface StudentProfileAttrs {
 export interface NotificationAttrs {
   userId: string;
   message: string;
+}
+
+export interface CustomRequestWithUser extends Request {
+  user?: any;
 }

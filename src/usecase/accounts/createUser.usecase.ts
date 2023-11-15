@@ -29,7 +29,8 @@ export const createUserUsecase = async () => {
     //   subject: "Account created.",
     //   response: mailResponse,
     // });
-
+    console.log(password,'PASSWORD');
+    
     return userRepository.createUser({
       email,
       name,

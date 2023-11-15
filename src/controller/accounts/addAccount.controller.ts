@@ -30,10 +30,9 @@ export const addAccount = async (
       await studentUsecase.execute(user.id, batch, session);
     }
 
-    ev.emit("userCreated", user);
+    ev.emit("userCreated", {userId: user.id, message: 'Your accound was created'});
     await transactionService.commitTransaction(session);
 
-    // Send the response without waiting for the runTime function
     res.json(createSuccessResponse(user, req));
   } catch (error: any) {
     await transactionService.rollbackTransaction(session);

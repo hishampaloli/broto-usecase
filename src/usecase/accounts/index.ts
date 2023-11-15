@@ -1,3 +1,5 @@
 // export * from './createCoordinator.usecase'
 export * from './createUser.usecase'
 export * from './createStudentProfile.usecase'
+export * from './login.usecase'
+export * from './editUser.usecase'

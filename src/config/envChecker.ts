@@ -10,6 +10,8 @@ class EnvironmentChecker {
       this.checkEnvVariable("SMTP_EMAIL");
       this.checkEnvVariable("SMTP_PASS");
       this.checkEnvVariable("DATABASE_TYPE");
+      this.checkEnvVariable("JWT_SECRET");
+      
     } catch (error: any) {
       console.log(error.message);
       process.exit(1);
