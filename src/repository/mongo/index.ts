@@ -1,5 +1,4 @@
-import {userRepository} from "./user.repository";
+import { userRepository } from "./user.repository";
+import { notificationRepository } from "./notification.repository";
 
-export {
-  userRepository
-};
+export { userRepository, notificationRepository };

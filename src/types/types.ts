@@ -27,7 +27,15 @@ export interface ApiErrorResponse {
 
 export interface UserRepository {
   createUser: (user: UserAttrs, session: TransactionClientType) => Promise<any>;
-  createStudentProfile: (profileData: StudentProfileAttrs,session: TransactionClientType) => Promise<any>;
+  createStudentProfile: (
+    profileData: StudentProfileAttrs,
+    session: TransactionClientType
+  ) => Promise<any>;
+}
+
+export interface NotificationRepository {
+  createNotification: (data:NotificationAttrs) => Promise<void>;
+  readNotification: (notificationId: string, userId: string) => Promise<any>;
 }
 
 export interface UserAttrs {
@@ -42,4 +50,9 @@ export interface UserAttrs {
 export interface StudentProfileAttrs {
   userId: string;
   batch: string;
+}
+
+export interface NotificationAttrs {
+  userId: string;
+  message: string;
 }

@@ -8,6 +8,7 @@ import {
   createSuccessResponse,
 } from "../../utils/response";
 import { transactionService } from "../../config/TransactionService";
+import { ev } from "../../events/events";
 
 export const addAccount = async (
   req: Request,
@@ -29,8 +30,10 @@ export const addAccount = async (
       await studentUsecase.execute(user.id, batch, session);
     }
 
+    ev.emit("userCreated", user);
     await transactionService.commitTransaction(session);
 
+    // Send the response without waiting for the runTime function
     res.json(createSuccessResponse(user, req));
   } catch (error: any) {
     await transactionService.rollbackTransaction(session);
