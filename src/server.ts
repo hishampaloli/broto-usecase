@@ -1,22 +1,39 @@
+import cluster, { Worker } from "cluster";
+import os from "os";
 import { app } from "./app";
 import { DatabaseConnector } from "./config/db";
 import { EnvironmentChecker } from "./config/envChecker";
 import { MONGO_URI } from "./utils/env";
 
-const start = async () => {
-  try {
-    let env = new EnvironmentChecker();
-    const dbConnector = new DatabaseConnector(MONGO_URI);
+const numCPUs = os.cpus().length;
 
-    await env.check();
-    await dbConnector.connect();
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
 
-    app.listen(8000, () => {
-      console.log("Listening on port 3000!!!!!!!!");
-    });
-  } catch (err) {
-    console.error(err, "start error");
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
   }
-};
 
-start();
+  cluster.on("exit", (worker: Worker, code: number, signal: string) => {
+    console.log(`Worker ${worker.process.pid} died, creating a new one`);
+    cluster.fork();
+  });
+} else {
+  const start = async () => {
+    try {
+      let env = new EnvironmentChecker();
+      const dbConnector = new DatabaseConnector(MONGO_URI);
+
+      await env.check();
+      await dbConnector.connect();
+
+      app.listen(8000, () => {
+        console.log(`Worker ${process.pid} listening on port 8000`);
+      });
+    } catch (err) {
+      console.error(err, `Worker ${process.pid} start error`);
+    }
+  };
+
+  start();
+}
