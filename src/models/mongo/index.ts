@@ -10,3 +10,9 @@ export {
   NotificationAttrs,
   NotificationDoc,
 } from "./notification.schema";
+
+export {
+  RequestLog,
+  RequestLogAttrs,
+  RequestLogDoc,
+} from "./requestlog.schema";

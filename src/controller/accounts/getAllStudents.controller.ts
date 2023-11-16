@@ -13,10 +13,7 @@ export const getAllStudents = async (
   try {
     const usecase = await getAllUsers();
 
-    const data = await usecase.getStudents()
-    for (let index = 0; index < 500; index++) {
-        console.log(index);
-    }
+    const data = await usecase.getStudents();
     res.json(createSuccessResponse(data, req));
   } catch (error: any) {
     res

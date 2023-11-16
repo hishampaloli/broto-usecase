@@ -46,6 +46,10 @@ export interface NotificationRepository {
   readNotification: (notificationId: string, userId: string) => Promise<any>;
 }
 
+export interface RequestLogRepository {
+  AddRequestLogs: (data: RequestLogAttrs) => Promise<void>;
+}
+
 export interface UserAttrs {
   role: string;
   name: string;
@@ -65,6 +69,12 @@ export interface NotificationAttrs {
   message: string;
 }
 
+export interface RequestLogAttrs {
+  method: string;
+  path: string;
+  ipAddress: string;
+  userAgent: string;
+}
 export interface CustomRequestWithUser extends Request {
   user?: any;
 }
