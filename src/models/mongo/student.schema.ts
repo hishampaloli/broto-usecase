@@ -17,6 +17,7 @@ interface StudentProfileDoc extends mongoose.Document {
   age: number;
   gender: string;
   verificationId: string;
+  image: any
 }
 
 const studentProfileSchema = new mongoose.Schema(
@@ -65,6 +66,9 @@ const studentProfileSchema = new mongoose.Schema(
       required: false,
       default: null,
     },
+    image: {
+      // type :
+    }
   },
   {
     toJSON: {
