@@ -5,6 +5,8 @@ import {
   editUser,
   login,
   getAllStudents,
+  getAllCordinators,
+  getAllReviewers,
 } from "../controller/accounts";
 import { isAdmin, protect } from "../middleware/authMiddleware";
 
@@ -16,6 +18,8 @@ export = () => {
   router.patch("/edit", protect, editUser);
   router.patch("/block", protect, isAdmin, blockUser);
   router.get("/students", getAllStudents);
+  router.get("/reviewers", getAllReviewers);
+  router.get("/coordinators", getAllCordinators);
 
   return router;
 };

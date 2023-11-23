@@ -16,3 +16,5 @@ export {
   RequestLogAttrs,
   RequestLogDoc,
 } from "./requestlog.schema";
+
+export { Review, ReviewAttrs, ReviewDoc } from "./review.schema";

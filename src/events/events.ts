@@ -7,8 +7,20 @@ ev.on("userCreated", async (data: NotificationAttrs) => {
   await notificationRepository.createNotification(data);
 });
 
-export { ev };
-
 ev.on("sentReviewNotification", async () => {
-  console.log('need to add the logic here');
+  console.log("need to add the logic here");
 });
+
+ev.on("reviewScheduled", async (data) => {
+  await notificationRepository.createNotifications([
+    {
+      userId: data.studentId,
+      message: data.message,
+    },
+    {
+      userId: data.reviewerId,
+      message: data.message,
+    },
+  ]);
+});
+export { ev };

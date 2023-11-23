@@ -1,21 +1,29 @@
 import { Request, Response, NextFunction } from "express";
-import { getAllUsers } from "../../usecase/accounts";
+import { updateReviewUsecase } from "../../usecase/review";
 import {
   createErrorWithStackResponse,
   createSuccessResponse,
 } from "../../utils/response";
-
-export const getAllCordinators = async (
+export const updateReviewMark = async (
   req: Request | any,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const usecase = await getAllUsers();
+    const { id, feedback, theoryMark, practicalMark } = req.body;
 
-    const data = await usecase.getCordinators()
+    const usecase = await updateReviewUsecase();
 
-    res.json(createSuccessResponse(data, req));
+    await usecase.validate();
+    const reviewData = await usecase.executeUpdateFromReviewer(
+      id,
+      feedback,
+      theoryMark,
+      practicalMark,
+      req.user.id
+    );
+
+    res.json(createSuccessResponse(reviewData, req));
   } catch (error: any) {
     res
       .status(error.statusCode || 500)

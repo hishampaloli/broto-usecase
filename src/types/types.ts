@@ -44,6 +44,18 @@ export interface UserRepository {
 export interface NotificationRepository {
   createNotification: (data: NotificationAttrs) => Promise<void>;
   readNotification: (notificationId: string, userId: string) => Promise<any>;
+  createNotifications: (notifications: NotificationAttrs[]) => Promise<void>;
+}
+
+export interface ReviewRepository {
+  createReview: (data: ReviewAttrs) => Promise<any>;
+  updateReview: (data: ReviewAttrs, id: string) => Promise<any>;
+  updateReviewMark: (
+    data: ReviewAttrs,
+    id: string,
+    reviewerId: string
+  ) => Promise<any>;
+  deleteReview: (id: string) => Promise<void>;
 }
 
 export interface RequestLogRepository {
@@ -62,6 +74,21 @@ export interface UserAttrs {
 export interface StudentProfileAttrs {
   userId: string;
   batch: string;
+}
+
+export interface ReviewAttrs {
+  id?: string;
+  reviewerId?: string;
+  studentId?: string;
+  coordinatorId?: string;
+  week?: string;
+  startTime?: string;
+  endTime?: string;
+  date?: string;
+  feedback?: string;
+  status?: string;
+  theoryMark?: string;
+  practicalMark?: string;
 }
 
 export interface NotificationAttrs {

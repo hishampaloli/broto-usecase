@@ -4,9 +4,11 @@ import { NotificationAttrs, NotificationRepository } from "../../types/types";
 
 const notificationRepository: NotificationRepository = {
   createNotification: async (data: NotificationAttrs) => {
-    console.log(data);
-
     await Notification.create(data);
+  },
+
+  createNotifications: async (notifications: NotificationAttrs[]) => {
+    await Notification.insertMany(notifications);
   },
 
   readNotification: async (notificationId: string, userId: string) => {
