@@ -55,7 +55,7 @@ export interface ReviewRepository {
     id: string,
     reviewerId: string
   ) => Promise<any>;
-  deleteReview: (id: string) => Promise<void>;
+  deleteReview: (id: string, coordinatorId: string) => Promise<void>;
   findUpcommingReviewsToSchedule: () => Promise<any>;
 }
 

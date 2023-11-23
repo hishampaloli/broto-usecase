@@ -54,8 +54,8 @@ const reviewRepository: ReviewRepository = {
     return updatedReview;
   },
 
-  deleteReview: async (id: string) => {
-    await Review.findByIdAndDelete(id);
+  deleteReview: async (id: string, coordinatorId: string) => {
+    await Review.findOneAndDelete({ _id: id, coordinatorId });
   },
 
   findUpcommingReviewsToSchedule: async () => {
@@ -136,7 +136,7 @@ const reviewRepository: ReviewRepository = {
                 message: {
                   $concat: [
                     "Schedule a review with ",
-                    { $arrayElemAt: ["$studentInfo.name", 0] }, // Assuming the name field in the User collection
+                    { $arrayElemAt: ["$studentInfo.name", 0] },
                     "in ",
                     {
                       $toString: {
