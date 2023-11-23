@@ -8,3 +8,7 @@ ev.on("userCreated", async (data: NotificationAttrs) => {
 });
 
 export { ev };
+
+ev.on("sentReviewNotification", async () => {
+  console.log('need to add the logic here');
+});

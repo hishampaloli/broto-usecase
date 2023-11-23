@@ -4,11 +4,17 @@ import { app } from "./app";
 import { DatabaseConnector } from "./config/db";
 import { EnvironmentChecker } from "./config/envChecker";
 import { MONGO_URI } from "./utils/env";
+import cronJob from "node-cron";
+import { ev } from "./events/events";
 
 const numCPUs = os.cpus().length;
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
+
+  cronJob.schedule('0 */2 * * *', () => {
+    ev.emit("sentReviewNotification");
+  });
 
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
