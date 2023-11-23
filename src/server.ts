@@ -18,7 +18,7 @@ if (cluster.isMaster) {
     await dbConnector.connect();
   })();
 
-  cronJob.schedule("0 0 */1 * * *", () => {
+  cronJob.schedule("*/1000 * * * * *", () => {
     ev.emit("sentReviewNotification");
   });
 

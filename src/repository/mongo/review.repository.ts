@@ -78,40 +78,113 @@ const reviewRepository: ReviewRepository = {
         },
       },
       {
-        $project: {
-          _id: 0,
-          isRead: { $literal: false },
-          userId: "$studentId",
-          createdAt: { $literal: new Date() },
-          message: {
-            $concat: [
-              "You have a review in ",
-              {
-                $toString: {
-                  $ceil: {
-                    $add: [
-                      {
-                        $divide: [
-                          { $subtract: ["$date", new Date()] },
-                          24 * 60 * 60 * 1000,
-                        ],
+        $facet: {
+          studentNotifications: [
+            {
+              $project: {
+                _id: 0,
+                isRead: { $literal: false },
+                userId: "$studentId",
+                createdAt: { $literal: new Date() },
+                message: {
+                  $concat: [
+                    "You have a review in ",
+                    {
+                      $toString: {
+                        $ceil: {
+                          $add: [
+                            {
+                              $divide: [
+                                { $subtract: ["$date", new Date()] },
+                                24 * 60 * 60 * 1000,
+                              ],
+                            },
+                            6,
+                          ],
+                        },
                       },
-                      6,
-                    ],
-                  },
+                    },
+                    " day",
+                    {
+                      $cond: {
+                        if: { $ne: [1, 1] },
+                        then: "s",
+                        else: "",
+                      },
+                    },
+                    ".",
+                  ],
                 },
               },
-              " day",
-              {
-                $cond: {
-                  if: { $ne: [1, 1] },
-                  then: "s",
-                  else: "",
+            },
+          ],
+          reviewerNotifications: [
+            {
+              $lookup: {
+                from: "users",
+                localField: "studentId",
+                foreignField: "_id",
+                as: "studentInfo",
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                isRead: { $literal: false },
+                userId: "$reviewerId",
+                createdAt: { $literal: new Date() },
+                message: {
+                  $concat: [
+                    "Schedule a review with ",
+                    { $arrayElemAt: ["$studentInfo.name", 0] }, // Assuming the name field in the User collection
+                    "in ",
+                    {
+                      $toString: {
+                        $ceil: {
+                          $add: [
+                            {
+                              $divide: [
+                                { $subtract: ["$date", new Date()] },
+                                24 * 60 * 60 * 1000,
+                              ],
+                            },
+                            6,
+                          ],
+                        },
+                      },
+                    },
+                    " day",
+                    {
+                      $cond: {
+                        if: { $ne: [1, 1] },
+                        then: "s",
+                        else: "",
+                      },
+                    },
+                    ".",
+                  ],
                 },
               },
-              ".",
-            ],
+            },
+          ],
+        },
+      },
+      {
+        $project: {
+          notifications: {
+            $setUnion: ["$studentNotifications", "$reviewerNotifications"],
           },
+        },
+      },
+      {
+        $unwind: "$notifications",
+      },
+      {
+        $project: {
+          userId: "$notifications.userId",
+          message: "$notifications.message",
+          isRead: "$notifications.isRead",
+          createdAt: "$notifications.createdAt",
         },
       },
       {
