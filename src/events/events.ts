@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { notificationRepository } from "../repository";
+import { notificationRepository, reviewRepository } from "../repository";
 import { NotificationAttrs } from "../types/types";
 const ev = new EventEmitter();
 
@@ -8,7 +8,7 @@ ev.on("userCreated", async (data: NotificationAttrs) => {
 });
 
 ev.on("sentReviewNotification", async () => {
-  console.log("need to add the logic here");
+  reviewRepository.findUpcommingReviewsToSchedule()
 });
 
 ev.on("reviewScheduled", async (data) => {

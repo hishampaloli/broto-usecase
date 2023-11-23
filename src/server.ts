@@ -9,10 +9,16 @@ import { ev } from "./events/events";
 
 const numCPUs = os.cpus().length;
 
+const dbConnector = new DatabaseConnector(MONGO_URI);
+
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`);
 
-  cronJob.schedule('0 */2 * * *', () => {
+  (async function name() {
+    await dbConnector.connect();
+  })();
+
+  cronJob.schedule("0 0 */1 * * *", () => {
     ev.emit("sentReviewNotification");
   });
 
@@ -28,7 +34,6 @@ if (cluster.isMaster) {
   const start = async () => {
     try {
       let env = new EnvironmentChecker();
-      const dbConnector = new DatabaseConnector(MONGO_URI);
 
       await env.check();
       await dbConnector.connect();
